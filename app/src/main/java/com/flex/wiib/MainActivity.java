@@ -8,6 +8,8 @@ import android.webkit.WebViewClient;
 public class MainActivity extends AppCompatActivity {
 
     WebView browser;
+    int empId,LineaID,EstacionID;
+    String url = "http://jzmnt026:8001/WIIB/Login";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +20,15 @@ public class MainActivity extends AppCompatActivity {
         browser.addJavascriptInterface(new WebAppInterface(this), "Android");
 
 
+        if(getIntent().getExtras() != null){
+            empId= getIntent().getExtras().getInt("empId");
+            LineaID= getIntent().getExtras().getInt("LineaID");
+            EstacionID= getIntent().getExtras().getInt("EstacionID");
+        }
+
+        if(empId >0){
+            url = "10.121.64.48/wiib/hojatrabajo/?LineaID="+LineaID+"&EstacionID="+EstacionID+"&empId="+empId;
+        }
 
         browser.setWebViewClient(new WebViewClient() {
 
@@ -29,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         });
         // Cargamos la web
 
-        browser.loadUrl("http://jzmnt026:8001/WIIB/Login");
+
+        browser.loadUrl(url);
     }
 }
